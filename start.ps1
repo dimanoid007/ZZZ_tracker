@@ -8,8 +8,16 @@ if (-not (Get-Command node -ErrorAction SilentlyContinue)) {
 if (-not (Test-Path "node_modules")) {
   Write-Host "Установка зависимостей..." -ForegroundColor Cyan
   npm install
+  if ($LASTEXITCODE -ne 0) {
+    Write-Host "Не удалось установить зависимости." -ForegroundColor Red
+    Read-Host "Нажми Enter"
+    exit $LASTEXITCODE
+  }
 }
 Write-Host "Загрузка актуальных достижений..." -ForegroundColor Cyan
 npm run sync
+if ($LASTEXITCODE -ne 0) {
+  Write-Host "Источник достижений сейчас недоступен. Трекер запустится с последней сохранённой базой." -ForegroundColor Yellow
+}
 Write-Host "Запуск трекера..." -ForegroundColor Green
 npm run dev

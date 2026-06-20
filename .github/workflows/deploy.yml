@@ -21,9 +21,9 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm install
+      - run: npm ci
       - name: Update achievements
-        run: npm run sync
+        run: npm run sync || echo "Источник недоступен, используется предыдущий каталог"
       - name: Commit updated catalog
         run: |
           git config user.name "zzz-tracker-bot"
